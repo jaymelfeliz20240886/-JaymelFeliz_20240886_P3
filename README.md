@@ -131,7 +131,7 @@ get router info routing-table all
 ### Fase 2: Validación DMZ (Zero Trust y FQDN)
 **Objetivo:** Confirmar que el servidor público solo alcanza su repositorio autorizado y no tiene navegación libre.
 **Comandos ejecutados (Terminal Ubuntu DMZ):**
-```bash
+
 ping -c 4 8.8.8.8               # Prueba de DNS autorizado (Éxito)
 <img width="784" height="286" alt="imagen" src="https://github.com/user-attachments/assets/1377b802-92c1-4548-8c2f-0e9660e5834b" />
 
@@ -141,7 +141,8 @@ ping -c 4 archive.ubuntu.com    # Prueba de FQDN autorizado (Éxito)
 ping -c 4 google.com            # Prueba de tráfico no autorizado (Fallo / Drop)
 <img width="930" height="264" alt="imagen" src="https://github.com/user-attachments/assets/8edff97e-6f58-432a-bb26-73d05530e3f5" />
 
-```
+
+
 *Resultado Esperado:* Resolución y respuesta exclusiva hacia los dominios permitidos en la regla `DMZ_TO_UPDATES`.
 
 ### Fase 3: Validación LAN (Múltiples Interfaces y SNAT)
