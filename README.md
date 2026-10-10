@@ -2,6 +2,9 @@
 
 🎥 **[Ver Video Demostrativo del Laboratorio Aquí](LINK_A_TU_VIDEO_AQUI)**
 
+<img width="931" height="547" alt="imagen" src="https://github.com/user-attachments/assets/a0a41763-f703-4e31-b179-4a4a56c41a34" />
+
+
 ---
 
 ## Índice
@@ -90,9 +93,12 @@ end
 
 ### 3. Configuración de Subinterfaces (Router-on-a-Stick)
 Desde la GUI (Network > Interfaces), se crearon subinterfaces lógicas colgando del `port3` físico, asignando los identificadores de VLAN correspondientes, IPs estáticas y habilitando PING para facilitar el diagnóstico interno.
+<img width="1488" height="238" alt="imagen" src="https://github.com/user-attachments/assets/91f90c41-1cd0-46b1-a79a-ca8c0341a179" />
 
 ### 4. Configuración de DNS y FQDN
 Se configuraron los servidores DNS del FortiGate (Network > DNS) apuntando a `8.8.8.8` y `8.8.4.4`. En *Policy & Objects > Addresses*, se creó un objeto tipo FQDN apuntando a `archive.ubuntu.com` para la DMZ, y un objeto tipo IP/Netmask para `8.8.8.8`.
+<img width="1483" height="942" alt="imagen" src="https://github.com/user-attachments/assets/a05911cf-e619-46d0-967a-907c929faf7c" />
+
 
 ---
 
@@ -103,8 +109,14 @@ Ubicación en GUI: *Policy & Objects > Firewall Policy*
 | ID | Nombre | Incoming Interface | Outgoing Interface | Source | Destination | Service | Action | NAT |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **1** | `DMZ_TO_UPDATES` | `port2` (DMZ) | `port1` (WAN) | Subred DMZ (`10.20.24.0/28`) | FQDN: `archive.ubuntu.com`<br>IP: `8.8.8.8` | DNS, HTTP, HTTPS, PING | **ACCEPT** | **ENABLE** (Use Outgoing Interface IP) |
+<img width="1485" height="1003" alt="imagen" src="https://github.com/user-attachments/assets/729e2bc3-e7db-4a15-8561-3876b28d0bb6" />
+
 | **2** | `INTERNET_VLANS` | `VLAN10_LIMITADOS`<br>`VLAN20_SSH` | `port1` (WAN) | `all` | `all` | ALL | **ACCEPT** | **ENABLE** (Use Outgoing Interface IP) |
+<img width="940" height="940" alt="imagen" src="https://github.com/user-attachments/assets/daf2d8af-f5fe-4b6d-88ba-1ef8fb423142" />
+
 | **0** | `Implicit Deny` | `any` | `any` | `all` | `all` | ALL | **DENY** | DISABLE |
+<img width="1485" height="54" alt="imagen" src="https://github.com/user-attachments/assets/cd1f8d55-ec86-4554-bc01-1a456414cbf0" />
+
 
 ---
 
@@ -115,7 +127,7 @@ Para certificar el correcto funcionamiento de toda la topología, se ejecutaron 
 ### Fase 1: Validación de Borde (WAN)
 **Objetivo:** Confirmar resolución DNS local y enrutamiento hacia el exterior.
 **Comandos ejecutados (CLI FortiGate):**
-```text
+
 execute ping 8.8.8.8
 <img width="777" height="261" alt="imagen" src="https://github.com/user-attachments/assets/4bbf4af1-5a9d-49a5-a51f-691d94866d53" />
 
@@ -125,7 +137,6 @@ execute ping google.com
 get router info routing-table all
 <img width="889" height="351" alt="imagen" src="https://github.com/user-attachments/assets/193aefb7-4767-4ab1-bb6e-4e4950c96605" />
 
-```
 *Resultado Esperado:* 0% de pérdida de paquetes y presencia de la ruta estática predeterminada `S* 0.0.0.0/0`.
 
 ### Fase 2: Validación DMZ (Zero Trust y FQDN)
@@ -139,9 +150,7 @@ ping -c 4 archive.ubuntu.com    # Prueba de FQDN autorizado (Éxito)
 <img width="915" height="234" alt="imagen" src="https://github.com/user-attachments/assets/c7473fb9-d268-4dcc-a584-d6cd650b7df6" />
 
 ping -c 4 google.com            # Prueba de tráfico no autorizado (Fallo / Drop)
-<img width="930" height="264" alt="imagen" src="https://github.com/user-attachments/assets/8edff97e-6f58-432a-bb26-73d05530e3f5" />
-
-
+<img width="625" height="34" alt="imagen" src="https://github.com/user-attachments/assets/d23bf6e2-6149-42a7-b0b9-59c8848d8d9f" />
 
 *Resultado Esperado:* Resolución y respuesta exclusiva hacia los dominios permitidos en la regla `DMZ_TO_UPDATES`.
 
@@ -151,30 +160,35 @@ ping -c 4 google.com            # Prueba de tráfico no autorizado (Fallo / Drop
 ```bash
 ping -c 4 google.com
 ```
+<img width="930" height="264" alt="imagen" src="https://github.com/user-attachments/assets/8edff97e-6f58-432a-bb26-73d05530e3f5" />
 *Resultado Esperado:* Respuesta exitosa demostrando que la regla `INTERNET_VLANS` procesa ambas redes correctamente.
 
 ### Fase 4: Auditoría de Políticas (Hit Counts)
 **Objetivo:** Demostrar gráficamente el procesamiento de paquetes.
 **Acción:** Revisión de la columna "Bytes" en la tabla de *Firewall Policy*. 
+<img width="1483" height="246" alt="imagen" src="https://github.com/user-attachments/assets/1b77f87d-0efc-48df-b84d-6e6f7764a498" />
+
 *Resultado Esperado:* El contador de las políticas 1 y 2 debe registrar una cantidad de bytes mayor a cero (ej. `14.5 KB`), garantizando que las reglas configuradas están interceptando y permitiendo el tráfico real.
 
 ---
 
 ## Diagramas y Evidencias Visuales
 
-*(Instrucción: Reemplaza las siguientes etiquetas con los enlaces o rutas locales de tus capturas de pantalla para el repositorio).*
-
 **Topología Lógica Integrada en GNS3:**
-<br>![Topología en GNS3](img/topologia_gns3.png)
+<img width="966" height="493" alt="imagen" src="https://github.com/user-attachments/assets/2914494d-d36d-4390-86d6-a5d86d8dfff9" />
+
 
 **Configuración de las Interfaces Lógicas (Subinterfaces/VLANs):**
-<br>![Interfaces FortiGate](img/fortigate_interfaces.png)
+<img width="1489" height="349" alt="imagen" src="https://github.com/user-attachments/assets/93120c27-7cc9-4267-bd30-0b437b3560be" />
+
 
 **Tabla de Políticas de Firewall con Hit Counts (Bytes):**
-<br>![Políticas Firewall](img/fortigate_policies.png)
+<img width="1483" height="246" alt="imagen" src="https://github.com/user-attachments/assets/1b77f87d-0efc-48df-b84d-6e6f7764a498" />
 
 **Pruebas de Conectividad Efectivas desde Ubuntu (DMZ / USER1):**
-<br>![Ping Tests](img/ubuntu_pings.png)
+<img width="910" height="520" alt="imagen" src="https://github.com/user-attachments/assets/91ce7deb-3323-4e06-b087-39ad71894348" />
+
+<img width="919" height="322" alt="imagen" src="https://github.com/user-attachments/assets/5a0149ea-27a0-45cf-9094-b4619879b48a" />
 
 ---
 
