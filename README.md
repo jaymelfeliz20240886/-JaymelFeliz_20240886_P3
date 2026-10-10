@@ -1,6 +1,6 @@
 # Laboratorio de Seguridad Perimetral: FortiGate, DMZ y Segmentación de VLANs en GNS3
 
-🎥 **[Ver Video Demostrativo del Laboratorio Aquí](LINK_A_TU_VIDEO_AQUI)**
+🎥 https://youtu.be/haCspUkcse4
 
 <img width="931" height="547" alt="imagen" src="https://github.com/user-attachments/assets/a0a41763-f703-4e31-b179-4a4a56c41a34" />
 
