@@ -117,8 +117,14 @@ Para certificar el correcto funcionamiento de toda la topología, se ejecutaron 
 **Comandos ejecutados (CLI FortiGate):**
 ```text
 execute ping 8.8.8.8
+<img width="777" height="261" alt="imagen" src="https://github.com/user-attachments/assets/4bbf4af1-5a9d-49a5-a51f-691d94866d53" />
+
 execute ping google.com
+<img width="838" height="259" alt="imagen" src="https://github.com/user-attachments/assets/84d814ee-92e9-4216-bf3d-7e413f7f17ce" />
+
 get router info routing-table all
+<img width="889" height="351" alt="imagen" src="https://github.com/user-attachments/assets/193aefb7-4767-4ab1-bb6e-4e4950c96605" />
+
 ```
 *Resultado Esperado:* 0% de pérdida de paquetes y presencia de la ruta estática predeterminada `S* 0.0.0.0/0`.
 
@@ -127,8 +133,14 @@ get router info routing-table all
 **Comandos ejecutados (Terminal Ubuntu DMZ):**
 ```bash
 ping -c 4 8.8.8.8               # Prueba de DNS autorizado (Éxito)
+<img width="784" height="286" alt="imagen" src="https://github.com/user-attachments/assets/1377b802-92c1-4548-8c2f-0e9660e5834b" />
+
 ping -c 4 archive.ubuntu.com    # Prueba de FQDN autorizado (Éxito)
+<img width="915" height="234" alt="imagen" src="https://github.com/user-attachments/assets/c7473fb9-d268-4dcc-a584-d6cd650b7df6" />
+
 ping -c 4 google.com            # Prueba de tráfico no autorizado (Fallo / Drop)
+<img width="930" height="264" alt="imagen" src="https://github.com/user-attachments/assets/8edff97e-6f58-432a-bb26-73d05530e3f5" />
+
 ```
 *Resultado Esperado:* Resolución y respuesta exclusiva hacia los dominios permitidos en la regla `DMZ_TO_UPDATES`.
 
