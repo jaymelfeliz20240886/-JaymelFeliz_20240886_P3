@@ -1,0 +1,14 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      addresses:
+        - 10.20.20.2/24
+      routes:
+        - to: default
+          via: 10.20.20.1
+      nameservers:
+        addresses:
+          - 8.8.8.8
+          - 8.8.4.4
