@@ -45,7 +45,7 @@ La arquitectura divide la red en tres zonas lógicas de confianza:
 
 ---
 
-## Tabla de Direccionamiento IP
+## Tabla de Direccionamiento IP basado en matricula (20240886)
 
 | Dispositivo / Nodo | Interfaz / VLAN | Dirección IP / Prefijo | Gateway Predeterminado | DNS Asignado |
 | :--- | :--- | :--- | :--- | :--- |
